@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Encoder/Decoder</title>
+</head>
+<body>
+  <h1>URL Encoder/Decoder</h1>
+  <textarea id="inputText" placeholder="Enter your text here" rows="5" cols="50"></textarea>
+  <br><br>
+  <button onclick="encodeText()">Encode</button>
+  <button onclick="decodeText()">Decode</button>
+  <br><br>
+  <h3>Result:</h3>
+  <textarea id="resultText" rows="5" cols="50" readonly></textarea>
+
+  <script>
+    function encodeText() {
+      // Get the input value and remove whitespace/newlines
+      const input = document.getElementById('inputText').value.trim(); // Removes leading/trailing spaces and newlines
+      if (!input) {
+        alert("Input is empty or contains only whitespace! Please enter valid text.");
+        return;
+      }
+      const encoded = encodeURIComponent(input); // URL encode the trimmed text
+      document.getElementById('resultText').value = encoded;
+    }
+
+    function decodeText() {
+      // Get the input value and remove whitespace/newlines
+      const input = document.getElementById('inputText').value.trim(); // Removes leading/trailing spaces and newlines
+      if (!input) {
+        alert("Input is empty or contains only whitespace! Please enter valid text.");
+        return;
+      }
+      const decoded = decodeURIComponent(input); // URL decode the trimmed text
+      document.getElementById('resultText').value = decoded;
+    }
+  </script>
+</body>
+</html>
