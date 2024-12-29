@@ -3,39 +3,130 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URL Encoder/Decoder</title>
+  <title>Encoder/Decoder Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .section {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>URL Encoder/Decoder</h1>
-  <textarea id="inputText" placeholder="Enter your text here" rows="5" cols="50"></textarea>
-  <br><br>
-  <button onclick="encodeText()">Encode</button>
-  <button onclick="decodeText()">Decode</button>
-  <br><br>
-  <h3>Result:</h3>
-  <textarea id="resultText" rows="5" cols="50" readonly></textarea>
+  <h1>Encoder/Decoder Tool</h1>
+
+  <!-- URL Encoder/Decoder Section -->
+  <div class="section">
+    <h2>URL Encoder/Decoder</h2>
+    <textarea id="urlInput" placeholder="Enter text for URL encoding/decoding"></textarea>
+    <div class="button-group">
+      <button onclick="encodeURL()">URL Encode</button>
+      <button onclick="decodeURL()">URL Decode</button>
+      <button onclick="clearURL()">Clear</button>
+      <button onclick="copyResult('urlResult')">Copy Result</button>
+    </div>
+    <h3>Result:</h3>
+    <textarea id="urlResult" readonly></textarea>
+  </div>
+
+  <!-- Base64 Encoder/Decoder Section -->
+  <div class="section">
+    <h2>Base64 Encoder/Decoder</h2>
+    <textarea id="base64Input" placeholder="Enter text for Base64 encoding/decoding"></textarea>
+    <div class="button-group">
+      <button onclick="encodeBase64()">Base64 Encode</button>
+      <button onclick="decodeBase64()">Base64 Decode</button>
+      <button onclick="clearBase64()">Clear</button>
+      <button onclick="copyResult('base64Result')">Copy Result</button>
+    </div>
+    <h3>Result:</h3>
+    <textarea id="base64Result" readonly></textarea>
+  </div>
 
   <script>
-    function encodeText() {
-      // Get the input value and remove whitespace/newlines
-      const input = document.getElementById('inputText').value.trim(); // Removes leading/trailing spaces and newlines
+    // URL Encoding/Decoding
+    function encodeURL() {
+      const input = document.getElementById('urlInput').value.trim();
       if (!input) {
-        alert("Input is empty or contains only whitespace! Please enter valid text.");
+        alert("Please enter text to encode.");
         return;
       }
-      const encoded = encodeURIComponent(input); // URL encode the trimmed text
-      document.getElementById('resultText').value = encoded;
+      const encoded = encodeURIComponent(input);
+      document.getElementById('urlResult').value = encoded;
     }
 
-    function decodeText() {
-      // Get the input value and remove whitespace/newlines
-      const input = document.getElementById('inputText').value.trim(); // Removes leading/trailing spaces and newlines
+    function decodeURL() {
+      const input = document.getElementById('urlInput').value.trim();
       if (!input) {
-        alert("Input is empty or contains only whitespace! Please enter valid text.");
+        alert("Please enter text to decode.");
         return;
       }
-      const decoded = decodeURIComponent(input); // URL decode the trimmed text
-      document.getElementById('resultText').value = decoded;
+      const decoded = decodeURIComponent(input);
+      document.getElementById('urlResult').value = decoded;
+    }
+
+    // Base64 Encoding/Decoding
+    function encodeBase64() {
+      const input = document.getElementById('base64Input').value.trim();
+      if (!input) {
+        alert("Please enter text to encode.");
+        return;
+      }
+      const encoded = btoa(input);
+      document.getElementById('base64Result').value = encoded;
+    }
+
+    function decodeBase64() {
+      const input = document.getElementById('base64Input').value.trim();
+      if (!input) {
+        alert("Please enter text to decode.");
+        return;
+      }
+      try {
+        const decoded = atob(input);
+        document.getElementById('base64Result').value = decoded;
+      } catch (e) {
+        alert("Invalid Base64 input.");
+      }
+    }
+
+    // Clear functions
+    function clearURL() {
+      document.getElementById('urlInput').value = '';
+      document.getElementById('urlResult').value = '';
+    }
+
+    function clearBase64() {
+      document.getElementById('base64Input').value = '';
+      document.getElementById('base64Result').value = '';
+    }
+
+    // Copy Result function
+    function copyResult(resultId) {
+      const resultElement = document.getElementById(resultId);
+      if (resultElement.value.trim() === '') {
+        alert("No result to copy!");
+        return;
+      }
+      navigator.clipboard.writeText(resultElement.value)
+        .then(() => alert("Result copied to clipboard!"))
+        .catch(() => alert("Failed to copy result."));
     }
   </script>
 </body>
